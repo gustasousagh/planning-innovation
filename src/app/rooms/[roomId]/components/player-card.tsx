@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { EyeClosedIcon } from "@radix-ui/react-icons";
-import { EyeIcon } from "lucide-react";
+import { Check, EyeIcon, LoaderCircle } from "lucide-react";
 
 interface PlayCardProps {
   name?: string;
@@ -11,15 +11,14 @@ interface PlayCardProps {
 }
 export const PlayerCard = ({name, selected, image, hasChosenNumber}: PlayCardProps) => {
   const avatarFallback = name?.charAt(0).toUpperCase();
-  console.log(selected)
   return (
     <div className="space-y-2 m-2 w-20">
       <div className="h-24 items-center text-black justify-center flex rounded-md bg-slate-100">
       {!hasChosenNumber
-          ? "Esperando" // Exibe "Esperando" se o jogador não escolheu ainda
+          ? <LoaderCircle className="animate-spin"/> // Exibe "Esperando" se o jogador não escolheu ainda
           : selected !== undefined
           ? selected // Exibe o número se ele já foi escolhido
-          : "selecionou" // Exibe o ícone enquanto não for revelado
+          : <Check/> // Exibe o ícone enquanto não for revelado
         }
       </div>
       <Avatar className="h-20 w-20 rounded-md mr-1">
