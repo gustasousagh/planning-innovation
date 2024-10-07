@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { SidebarRoutes } from "./sidebar-routes";
 import { RoomsSection } from "./workspace-section";
 import { useGetRooms } from "@/features/room/api/use-get-rooms";
 import { SidebarItem } from "./sidebar-item";
