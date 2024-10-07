@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useSelectNumber } from "@/features/players/api/UseSelectNumberProps";
 import { useRevealNumbers } from "@/features/players/api/useRevealNumbers";
 import { useResetVisibility } from "@/features/room/api/useResetVisibility";
+import { PlayerCard } from "./components/player-card";
 
 const RoomPlayersList = () => {
   const roomId = useRoomId();
@@ -56,37 +57,32 @@ const RoomPlayersList = () => {
   if (isLoading) {
     return <div>Carregando...</div>;
   }
+  const numbers = [0.5, 1, 2, 4, 8, 12, 14, 16, 18, 20, 22, 24];
 
   return (
-    <div className="flex flex-col h-full">
-      <ul className="flex-grow overflow-y-auto p-4">
+    <div className="flex flex-col h-full justify-center items-center">
+      <ul className="flex overflow-y-auto flex-row">
         {players.map((player) => (
-          <li key={player.userId} className="p-2 border-b border-gray-300">
-            Jogador: {player.user.name} - 
-            Escolha: {player.selectedNumber !== null 
-              ? (player.selectedNumber ? player.selectedNumber : "*") 
-              : "não selecionado"}
-          </li>
+          <PlayerCard key={player._id} name={player.user.name} selected={typeof player.selectedNumber === "number" ? player.selectedNumber : undefined}
+          image={player.user.image}/>
         ))}
       </ul>
 
       <div className="overflow-x-auto whitespace-nowrap p-4">
         <div className="flex gap-2">
-          {[...Array(10)].map((_, index) => {
-            const number = index + 1;
-            return (
-              <button
-                key={number}
-                onClick={() => handleNumberClick(number)}
-                className={`p-2 border border-gray-300 rounded ${
-                  selectedNumber === number ? "bg-blue-500 text-white" : "bg-white text-gray-800"
-                }`}
-                disabled={isSelectingNumber}
-              >
-                {number}
-              </button>
-            );
-          })}
+          {numbers.map((number) => (
+             <button
+             key={number}
+             onClick={() => handleNumberClick(number)}
+             className={`p-2 w-12 h-12 border border-gray-300 rounded ${
+               selectedNumber === number ? "bg-blue-500 text-white" : "bg-white text-gray-800"
+             }`}
+             disabled={isSelectingNumber}
+           >
+             {number}
+           </button>
+       
+          ))}
         </div>
       </div>
 

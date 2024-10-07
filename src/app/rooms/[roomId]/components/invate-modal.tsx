@@ -43,7 +43,7 @@ export const InvateModal = ({ opem, setopen, name, joinCode }: Props) => {
     const invateLink = `${window.location.origin}/join/${roomId}`;
     navigator.clipboard
     .writeText(invateLink)
-    .then(() => {toast.success("Invate link copiado")})
+    .then(() => {toast.success("Link copiado!")})
   }
   return (
     <> 
@@ -51,8 +51,8 @@ export const InvateModal = ({ opem, setopen, name, joinCode }: Props) => {
     <Dialog open={opem} onOpenChange={setopen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Invite {name}</DialogTitle>
-          <DialogDescription>use the code {name}</DialogDescription>
+          <DialogTitle>Convide players para a sala {name}</DialogTitle>
+          <DialogDescription>Clique em copiar e envio o link pro usuario. vai pedir uma senha de 6 digitos {joinCode}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-4 items-center justify-center py-10">
           <p className="text-4xl font-bold tracking-widest uppercase">{joinCode}</p>

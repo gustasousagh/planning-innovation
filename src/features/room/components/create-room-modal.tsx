@@ -24,7 +24,7 @@ export const CreateRoomModal = () => {
     e.preventDefault();
     mutate({name}, {
         onSucess(data) {
-          toast.success("workspace created")
+          toast.success("Sala criada")
           router.push(`/rooms/${data}`)
           handlerClose();
         },
@@ -34,7 +34,7 @@ export const CreateRoomModal = () => {
     <Dialog open={open} onOpenChange={handlerClose}>
         <DialogContent>
           <DialogHeader>
-            Adicionar um novo espaco de trabalho
+            Criar uma nova sala
           </DialogHeader>
           <form onSubmit={handlerSubmit} className="space-y-6">
             <Input
@@ -44,7 +44,7 @@ export const CreateRoomModal = () => {
             required
             autoFocus
             minLength={3}
-            placeholder="Workspace nome"
+            placeholder="Nome da sala"
             />
             <div className="flex justify-end">
               <Button disabled={isPending}>
