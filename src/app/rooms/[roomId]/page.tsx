@@ -57,7 +57,7 @@ const RoomPlayersList = () => {
   if (isLoading) {
     return <div>Carregando...</div>;
   }
-  const numbers = [0.5, 1, 2, 4, 8, 12, 14, 16, 18, 20, 22, 24];
+  const numbers = [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 22, 89];
   return (
     <div className="flex flex-col h-full justify-center items-center">
       <ul className="flex overflow-y-auto flex-row">
