@@ -58,17 +58,16 @@ const RoomPlayersList = () => {
     return <div>Carregando...</div>;
   }
   const numbers = [0.5, 1, 2, 4, 8, 12, 14, 16, 18, 20, 22, 24];
-
   return (
     <div className="flex flex-col h-full justify-center items-center">
       <ul className="flex overflow-y-auto flex-row">
         {players.map((player) => (
-          <PlayerCard key={player._id} name={player.user.name} selected={typeof player.selectedNumber === "number" ? player.selectedNumber : undefined}
+          <PlayerCard key={player._id} hasChosenNumber={player.hasChosenNumber} name={player.user.name} selected={typeof player.selectedNumber === "number" ? player.selectedNumber : undefined}
           image={player.user.image}/>
         ))}
       </ul>
 
-      <div className="overflow-x-auto whitespace-nowrap p-4">
+      <div className="overflow-x-hidden whitespace-nowrap p-4">
         <div className="flex gap-2">
           {numbers.map((number) => (
              <button

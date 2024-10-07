@@ -111,6 +111,7 @@ export const getOnlinePlayers = query({
         populatedPlayers.push({
           ...player,
           user,
+          hasChosenNumber: player.selectedNumber !== undefined, // Retorna true se o número foi escolhido
           selectedNumber: numbersRevealed ? player.selectedNumber : "*",
         });
       }
