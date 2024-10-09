@@ -1,81 +1,85 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useGetRoomId } from "@/hooks/use-get-room-id";
 import { cn } from "@/lib/utils";
+import { Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import VerificationInput from "react-verification-input";
+import { toast } from "sonner";
 import Logo from "@/public/logo.svg";
-import { LoadingScreen } from "@/components/loading";
-import { useJoinRoom } from "@/features/join/services/handler-complete-service";
+import { Unauthenticated } from "convex/react";
+import { useGetRoomId } from "@/hooks/use-get-room-id";
 import { useGetRoomInfo } from "@/features/join/api/use-get-room-info";
-import { useAuthModal } from "@/features/auth/store/use-auth-modal";
-import { useCurrentUser } from "@/features/auth/api/use-current-user";
+import { useJoin } from "@/features/join/api/use-join";
 
 const JoinPage = () => {
-  const route = useRouter();
   const roomId = useGetRoomId();
   const { data, isLoading } = useGetRoomInfo({ id: roomId });
-  const { handleComplete, isPending } = useJoinRoom();
-  const [open, setOpen] = useAuthModal();
-  const { data: user, isLoading: isUserLoading } = useCurrentUser();
-
+  const { mutate, isPending } = useJoin();
+  const router = useRouter();
   const isMember = useMemo(() => data?.isMember, [data?.isMember]);
 
   useEffect(() => {
-    if (!isUserLoading && !user && !open) {
-      setOpen(true);
-    } else if (user && open) {
-      setOpen(false);
-    }
-  }, [isUserLoading, user, open, setOpen]);
-
-  useEffect(() => {
     if (isMember) {
-      route.push(`/rooms/${roomId}`);
+      router.push(`/rooms/${roomId}`);
     }
-  }, [isMember, route, roomId]);
+  }, [isMember, router, roomId]);
 
-  if (isLoading || isUserLoading) {
-    return <LoadingScreen />;
+  const handleComplete = (value: string) => {
+    mutate({ roomId, joinCode: value }, {
+      onSuccess: (id) => {
+        router.replace(`/rooms/${id}`);
+        toast.success("Parabéns, agora você faz parte do time");
+      },
+      onError: () => {
+        toast.error("Código inválido ou expirado");
+      }
+    });
+  }
+
+  if (isLoading) {
+    return (
+      <div className="h-full items-center justify-center">
+        <Loader className="size-6 animate-spin text-muted-foreground" />
+      </div>
+    );
   }
 
   return (
-    <div className="h-screen flex flex-col gap-y-8 items-center justify-center bg-white p-8 rounded-lg shadow-sm">
-      <Image src={Logo} width={60} height={60} alt="ftyftyfufu" />
-      <div className="flex flex-col gap-y-4 items-center justify-center max-w-md">
-        <div className="flex flex-col gap-y-2 items-center justify-center">
-          <h1 className="text-2xl font-bold">Join {data?.name}</h1>
-          <p className="text-sm text-muted-foreground">
-            Enter the workspace code to join
-          </p>
+    <>
+      <Unauthenticated>
+        <div>Você precisa fazer login</div>
+      </Unauthenticated>
+      <div className="h-screen flex flex-col gap-y-8 items-center justify-center bg-white p-8 rounded-lg shadow-sm">
+        <Image src={Logo} width={60} height={60} alt="Logo" />
+        <div className="flex flex-col gap-y-4 items-center justify-center max-w-md">
+          <div className="flex flex-col gap-y-2 items-center justify-center">
+            <h1 className="text-2xl font-bold">Entre na {data?.name}</h1>
+            <p className="text-sm text-muted-foreground">Insira o código da sala para entrar</p>
+          </div>
+          <VerificationInput
+            onComplete={handleComplete}
+            length={6}
+            classNames={{
+              container: cn("flex gap-x-2", false && "opacity-50 cursor-not-allowed"),
+              character: "uppercase h-auto rounded-md border-gray-300 flex items-center justify-center text-lg font-medium text-gray-500",
+              characterInactive: "bg-muted",
+              characterSelected: "bg-white text-black",
+              characterFilled: "bg-white text-black"
+            }}
+            autoFocus
+          />
         </div>
-        <VerificationInput
-          onComplete={(value: string) => handleComplete(roomId, value)}
-          length={6}
-          classNames={{
-            container: cn(
-              "flex gap-x-2",
-              isPending && "opacity-50 cursor-not-allowed"
-            ),
-            character:
-              "uppercase h-auto rounded-md border-gray-300 flex items-center justify-center text-lg font-medium text-gray-500",
-            characterInactive: "bg-muted",
-            characterSelected: "bg-white text-black",
-            characterFilled: "bg-white text-black",
-          }}
-          autoFocus
-        />
+        <div className="flex gap-x-4">
+          <Button variant={"outline"} size={"lg"} asChild>
+            <Link href="/">Voltar</Link>
+          </Button>
+        </div>
       </div>
-      <div className="flex gap-x-4">
-        <Button variant={"outline"} size={"lg"} asChild>
-          <Link href="/">Voltar</Link>
-        </Button>
-      </div>
-    </div>
+    </>
   );
-};
+}
 
 export default JoinPage;

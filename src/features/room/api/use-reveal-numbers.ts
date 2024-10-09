@@ -4,9 +4,10 @@ import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 
 type RevealNumbersRequest = { roomId: Id<"rooms"> };
+type ResponseNumberType = Boolean;
 type RevealNumbersOptions = {
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onSuccess?: (res: ResponseNumberType) => void;
+  onError?: () => void;
   onSettled?: () => void;
   throwError?: boolean;
 };
@@ -29,12 +30,15 @@ export const useRevealNumbers = () => {
       try {
         setError(null);
         setStatus("pending");
-        await mutation(values);
+
+        const response = await mutation(values);
         setStatus("success");
-        options?.onSuccess?.();
+        console.log(response)
+        options?.onSuccess?.(response);
+        return response;
       } catch (error) {
         setStatus("error");
-        options?.onError?.(error as Error);
+        options?.onError?.();
         if (options?.throwError) {
           throw error;
         }

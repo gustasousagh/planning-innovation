@@ -145,6 +145,7 @@ export const revealNumbers = mutation({
     await ctx.db.patch(roomId, {
       numbersRevealed: true,
     });
+    return true;
   },
 });
 export const resetVisibility = mutation({

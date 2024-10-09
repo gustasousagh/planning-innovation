@@ -10,17 +10,21 @@ import { useRevealNumbers } from "@/features/room/api/use-reveal-numbers";
 import { useResetVisibility } from "@/features/room/api/use-reset-visibility";
 import { LoadingScreen } from "@/components/loading";
 import { PlayerCard } from "@/features/players/components/player-card";
+import { useGetRoom } from "@/features/room/api/use-get-room";
 
 const RoomPlayersList = () => {
   const roomId = useGetRoomId();
   const { players, isLoading } = useGetOnlinePlayers({ roomId });
   usePlayerHeartbeat({ roomId });
+  const [blockRevealButton, setBlockRevealButton] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+  const { data, isLoading: isRoomLoading } = useGetRoom({id: roomId});
 
   const { mutate: selectNumber, isPending: isSelectingNumber } =
     useSelectNumber();
-  const { mutate: revealNumbers, isPending: isRevealingNumbers } =
+  const { mutate: revealNumbers, isPending: isRevealingNumbers, isSuccess } =
     useRevealNumbers();
+    console.log("isSuccess (Reveal Numbers):", isSuccess);
   const { mutate: resetVisibility, isPending: isResetting } =
     useResetVisibility();
 
@@ -44,6 +48,7 @@ const RoomPlayersList = () => {
       { roomId },
       {
         onSuccess: () => {
+          setBlockRevealButton(true)
           toast.success("Números revelados com sucesso!");
         },
         onError: () => {
@@ -58,6 +63,7 @@ const RoomPlayersList = () => {
       { roomId },
       {
         onSuccess: () => {
+          setBlockRevealButton(false)
           toast.success("Visibilidade redefinida com sucesso!");
         },
         onError: () => {
@@ -70,7 +76,7 @@ const RoomPlayersList = () => {
   if (isLoading) {
     return <LoadingScreen />;
   }
-  const numbers = [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 22, 24];
+  const numbers = [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 24];
   return (
     <div className="flex flex-col h-full justify-center items-center">
       <ul className="flex overflow-y-auto flex-row max-h-96 w-full justify-center">
@@ -88,30 +94,36 @@ const RoomPlayersList = () => {
           />
         ))}
       </ul>
+     
+      <div className="overflow-x-auto p-4 max-w-full flex justify-center">
+  <div
+    className="grid gap-4 w-full grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 "
+    style={{
+      maxWidth: "100%",
+    }}
+  >
+    {numbers.map((number) => (
+      <Button
+        key={number}
+        onClick={() => handleNumberClick(number)}
+        className={`aspect-[3/4] h-[180px] border border-gray-300 rounded-lg ${
+          selectedNumber === number
+            ? "bg-blue-500 text-white"
+            : "bg-white text-gray-800"
+        }`}
+        disabled={isSelectingNumber || data?.numbersRevealed}
+      >
+        {number}
+      </Button>
+    ))}
+  </div>
+</div>
 
-      <div className="overflow-x-auto whitespace-nowrap p-4 max-w-full flex justify-center">
-        <div className="flex gap-2">
-          {numbers.map((number) => (
-            <button
-              key={number}
-              onClick={() => handleNumberClick(number)}
-              className={`p-2 w-12 h-12 border border-gray-300 rounded ${
-                selectedNumber === number
-                  ? "bg-blue-500 text-white"
-                  : "bg-white text-gray-800"
-              }`}
-              disabled={isSelectingNumber}
-            >
-              {number}
-            </button>
-          ))}
-        </div>
-      </div>
 
       <div className="flex gap-4 mt-4 justify-center">
         <Button
           onClick={handleRevealClick}
-          disabled={isRevealingNumbers}
+          disabled={isSuccess || data?.numbersRevealed}
           className="bg-green-500 text-white rounded"
         >
           Revelar Números

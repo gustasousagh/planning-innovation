@@ -32,6 +32,7 @@ export const useJoin = () => {
         setError(null);
         setStatus("pending");
         const response = await mutation(values);
+        setStatus("success")
         options?.onSuccess?.(response);
         return response;
       } catch (error) {

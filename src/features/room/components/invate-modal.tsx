@@ -8,8 +8,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useGetRoomId } from "@/hooks/use-get-room-id";
-// import { useNewJoinCode } from "@/features/workspaces/api/use-new-join-code";
-// import { useConfirm } from "@/hooks/use-confirm";
 import { CopyIcon, RefreshCcw } from "lucide-react";
 import { toast } from "sonner";
 
@@ -22,39 +20,22 @@ interface Props {
 
 export const InvateModal = ({ opem, setopen, name, joinCode }: Props) => {
   const roomId = useGetRoomId();
-  // const [ConfirmDialog, confirm] = useConfirm(
-  //   "tem certeza",
-  //   "deu errrufgyuu"
-  // )
-  // const { mutate, isPending } = useNewJoinCode();
-  // const handleNewCode = async () => {
-  //   const ok = await confirm();
-  //   if(!ok) return;
-  //   mutate({roomId}, {
-  //     onSuccess: ()=> {
-  //       toast.success("gugiu")
-  //     },
-  //     onError: () => {
-  //       toast.error("gyyu")
-  //     }
-  //   })
-  // }
+
   const handleCopy = () => {
     const invateLink = `${window.location.origin}/join/${roomId}`;
     navigator.clipboard.writeText(invateLink).then(() => {
       toast.success("Link copiado!");
     });
   };
+
   return (
     <>
-      {/* <ConfirmDialog/> */}
       <Dialog open={opem} onOpenChange={setopen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Convide players para a sala {name}</DialogTitle>
+            <DialogTitle>Convide jogadores para a sala {name}</DialogTitle>
             <DialogDescription>
-              Clique em copiar e envio o link pro usuario. vai pedir uma senha
-              de 6 digitos {joinCode}
+              Clique em Copiar e envie o link para o usuário. Ele precisará inserir o código abaixo.
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-y-4 items-center justify-center py-10">
@@ -68,7 +49,7 @@ export const InvateModal = ({ opem, setopen, name, joinCode }: Props) => {
           </div>
           <div className="flex items-center justify-between w-full">
             <Button variant="outline">
-              New code
+              Novo código
               <RefreshCcw className="size-4 ml-2" />
             </Button>
             <DialogClose asChild>
