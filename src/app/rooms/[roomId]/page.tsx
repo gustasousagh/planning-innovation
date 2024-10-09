@@ -97,7 +97,7 @@ const RoomPlayersList = () => {
      
       <div className="overflow-x-auto p-4 max-w-full flex justify-center">
   <div
-    className="grid gap-4 w-full grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 "
+    className="grid gap-4 w-full grid-cols-4 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 "
     style={{
       maxWidth: "100%",
     }}
