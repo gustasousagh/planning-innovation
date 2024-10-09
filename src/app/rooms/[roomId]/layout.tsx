@@ -1,7 +1,8 @@
 "use client";
-import { MobileSidebar } from "./components/mobile-sidebar";
-import { Sidebar } from "./components/sidebar";
-import { Toolbar } from "./components/toolbar";
+
+import { Sidebar } from "@/features/room/components/sidebar";
+import { Toolbar } from "@/features/room/components/toolbar";
+
 interface Props {
   children: React.ReactNode;
 }

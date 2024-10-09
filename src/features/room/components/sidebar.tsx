@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { RoomsSection } from "./workspace-section";
 import { useGetRooms } from "@/features/room/api/use-get-rooms";
 import { SidebarItem } from "./sidebar-item";
 import { HashIcon } from "lucide-react";
@@ -7,10 +6,11 @@ import { useCreateRoomModal } from "@/features/room/store/use-create-room-modal"
 import Logo from "@/public/logo.svg";
 
 import Link from "next/link";
-import { useRoomId } from "@/hooks/use-room-id";
+import { useGetRoomId } from "@/hooks/use-get-room-id";
+import { SideBarRoomSection } from "./sidebar-room-section";
 
 export const Sidebar = () => {
-  const roomId = useRoomId();
+  const roomId = useGetRoomId();
   const { data: workspace, isLoading: workspaceLoading } = useGetRooms();
   const [_open, setOpen] = useCreateRoomModal();
   return (
@@ -21,11 +21,7 @@ export const Sidebar = () => {
           Scrum<span className="text-primary">Player</span>
         </h4>
       </Link>
-      <RoomsSection
-        label="Salas"
-        hint="Nova sala"
-        onNew={() => setOpen(true)}
-      >
+      <SideBarRoomSection label="Salas" hint="Nova sala" onNew={() => setOpen(true)}>
         {workspace?.map((item) => (
           <SidebarItem
             key={item._id}
@@ -35,7 +31,7 @@ export const Sidebar = () => {
             variant={roomId === item._id ? "active" : "default"}
           />
         ))}
-      </RoomsSection>
+      </SideBarRoomSection>
     </div>
   );
 };

@@ -1,10 +1,10 @@
-import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import "./globals.css";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ThemeProvider } from "next-themes";
-import { JotaiProvider } from "@/features/home/components/jotai-provider";
 import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
+import { JotaiProvider } from "@/hooks/jotai-provider";
+import { ConvexClientProvider } from "@/components/convex-client-provider";
 export default function RootLayout({
   children,
 }: Readonly<{

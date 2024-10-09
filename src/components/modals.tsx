@@ -13,7 +13,7 @@ export const Modals = () => {
 
   return (
     <>
-    <CreateRoomModal/>
+      <CreateRoomModal />
       <AuthModal />
     </>
   );

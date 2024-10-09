@@ -4,7 +4,7 @@ import Logo from "@/public/logo.svg";
 
 import { Button } from "@/components/ui/button";
 import HeroImage from "@/public/hero.png";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Authenticated, AuthLoading, Unauthenticated } from "convex/react";
 import { Loader } from "lucide-react";
 import { useAuthModal } from "@/features/auth/store/use-auth-modal";
@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 export function Hero() {
   const [_open, setOpen] = useAuthModal();
-  const router = useRouter()
+  const router = useRouter();
   return (
     <>
       <div className="relative flex flex-col w-full py-5 mx-auto md:flex-row md:items-center md:justify-between">
@@ -35,8 +35,12 @@ export function Hero() {
             </div>
           </AuthLoading>
           <Authenticated>
-            <Button onClick={() => router.push(`/rooms`)} variant="default">Jogar</Button>
-            <Button onClick={() => router.push(`/rooms`)} variant="secondary">Criar uma turma</Button>
+            <Button onClick={() => router.push(`/rooms`)} variant="default">
+              Jogar
+            </Button>
+            <Button onClick={() => router.push(`/rooms`)} variant="secondary">
+              Criar uma turma
+            </Button>
           </Authenticated>
           <Unauthenticated>
             <Button onClick={() => setOpen(true)} variant="default">
@@ -72,8 +76,15 @@ export function Hero() {
                 </div>
               </AuthLoading>
               <Authenticated>
-                <Button onClick={() => router.push(`/rooms`)} variant="default">Jogar</Button>
-                <Button onClick={() => router.push(`/rooms`)} variant="secondary">Criar uma turma</Button>
+                <Button onClick={() => router.push(`/rooms`)} variant="default">
+                  Jogar
+                </Button>
+                <Button
+                  onClick={() => router.push(`/rooms`)}
+                  variant="secondary"
+                >
+                  Criar uma turma
+                </Button>
               </Authenticated>
               <Unauthenticated>
                 <Button onClick={() => setOpen(true)} variant="default">

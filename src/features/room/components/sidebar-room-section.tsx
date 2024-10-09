@@ -11,7 +11,7 @@ interface Props {
   hint: string;
   onNew?: () => void;
 }
-export const RoomsSection = ({ children, label, hint, onNew }: Props) => {
+export const SideBarRoomSection = ({ children, label, hint, onNew }: Props) => {
   const [on, toggle] = useToggle(true);
   return (
     <div className="flex flex-col mt-3 px-2">
@@ -22,11 +22,12 @@ export const RoomsSection = ({ children, label, hint, onNew }: Props) => {
           onClick={toggle}
           className=" px-3 text-sm shrink-0"
         >
-          <FaCaretDown className={cn("size-4 transition-transform", on && "-rotate-90")} />
+          <FaCaretDown
+            className={cn("size-4 transition-transform", on && "-rotate-90")}
+          />
         </Button>
         <Button
           variant={"default"}
-          
           className="group px-3 text-sm justify-start overflow-hidden items-center"
         >
           <span className="truncate">{label}</span>
@@ -34,17 +35,16 @@ export const RoomsSection = ({ children, label, hint, onNew }: Props) => {
         {onNew && (
           <Hint label={hint} side="top" align="center">
             <Button
-            onClick={onNew}
-            variant={"default"}
-            className="px-3 opacity-0 group-hover:opacity-100 transition-opacity ml-auto text-sm shrink-0"
+              onClick={onNew}
+              variant={"default"}
+              className="px-3 opacity-0 group-hover:opacity-100 transition-opacity ml-auto text-sm shrink-0"
             >
-                <PlusIcon className="size-5"/>
+              <PlusIcon className="size-5" />
             </Button>
           </Hint>
-
         )}
       </div>
-      { on && children}
+      {on && children}
     </div>
   );
 };

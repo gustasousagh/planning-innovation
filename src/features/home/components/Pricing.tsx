@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Link from "next/link";
-import { SubmitButton } from "./SubmitButtons";
 
 interface iAppProps {
   id: number;
@@ -23,7 +22,8 @@ export const PricingPlans: iAppProps[] = [
   {
     id: 0,
     cardTitle: "Iniciante",
-    cardDescription: "O plano ideal para quem está começando a usar estimativas.",
+    cardDescription:
+      "O plano ideal para quem está começando a usar estimativas.",
     benefits: [
       "1 Sala de Estimativa",
       "Até 5 Jogadores por Sala",
@@ -61,7 +61,9 @@ export function PricingTable() {
       </div>
 
       <p className="mx-auto mt-6 max-w-2xl text-center leading-tight text-muted-foreground">
-        Seja você um iniciante ou um profissional, temos o plano ideal para sua equipe realizar estimativas de pontos e horas com facilidade e agilidade.
+        Seja você um iniciante ou um profissional, temos o plano ideal para sua
+        equipe realizar estimativas de pontos e horas com facilidade e
+        agilidade.
       </p>
 
       <div className="grid grid-cols-1 gap-8 mt-16 lg:grid-cols-2">
@@ -101,7 +103,7 @@ export function PricingTable() {
             <CardFooter>
               {item.id === 1 ? (
                 <form className="w-full">
-                  <SubmitButton text="Comprar Plano" className="mt-5 w-full" />
+                  <Button className="mt-5 w-full">Comprar Plano</Button>
                 </form>
               ) : (
                 <Button variant="outline" className="mt-5 w-full" asChild>

@@ -3,16 +3,18 @@ import { api } from "../../../../convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type ResetVisibilityRequest = { roomId: Id<"rooms"> };
-type ResetVisibilityOptions = {
+type SelectNumberRequest = { roomId: Id<"rooms">; number: number };
+type SelectNumberOptions = {
   onSuccess?: () => void;
   onError?: (error: Error) => void;
   onSettled?: () => void;
   throwError?: boolean;
 };
 
-export const useResetVisibility = () => {
-  const [status, setStatus] = useState<"success" | "error" | "settled" | "pending" | null>(null);
+export const useSelectNumber = () => {
+  const [status, setStatus] = useState<
+    "success" | "error" | "settled" | "pending" | null
+  >(null);
   const [error, setError] = useState<Error | null>(null);
 
   const isPending = useMemo(() => status === "pending", [status]);
@@ -20,10 +22,10 @@ export const useResetVisibility = () => {
   const isError = useMemo(() => status === "error", [status]);
   const isSettled = useMemo(() => status === "settled", [status]);
 
-  const mutation = useMutation(api.rooms.resetVisibility);
+  const mutation = useMutation(api.players.selectNumber);
 
   const mutate = useCallback(
-    async (values: ResetVisibilityRequest, options?: ResetVisibilityOptions) => {
+    async (values: SelectNumberRequest, options?: SelectNumberOptions) => {
       try {
         setError(null);
         setStatus("pending");
@@ -32,7 +34,6 @@ export const useResetVisibility = () => {
         options?.onSuccess?.();
       } catch (error) {
         setStatus("error");
-        setError(error as Error);
         options?.onError?.(error as Error);
         if (options?.throwError) {
           throw error;

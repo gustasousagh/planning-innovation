@@ -1,10 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useRoomId } from "@/hooks/use-room-id";
-import { Id } from "../../../../../convex/_generated/dataModel";
+import { Id } from "../../../../convex/_generated/dataModel";
 interface Props {
   id: Id<"playes">;
   label?: string;

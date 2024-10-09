@@ -10,15 +10,11 @@ interface Props {
 
 export const usePlayerHeartbeat = ({ roomId }: Props) => {
   const updatePresence = useMutation(api.players.updatePlayerPresence);
-
   useEffect(() => {
     updatePresence({ roomId });
-    // Envia um "heartbeat" a cada 30 segundos
     const intervalId = setInterval(() => {
       updatePresence({ roomId });
     }, 30000);
-
-    // Limpa o intervalo se o componente desmontar (ou o navegador fechar)
     return () => clearInterval(intervalId);
   }, [updatePresence, roomId]);
 };

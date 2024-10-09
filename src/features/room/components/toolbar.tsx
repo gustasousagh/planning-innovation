@@ -1,22 +1,22 @@
 "use client";
 import { RoomPlayers } from "./room-players";
 import { MobileSidebar } from "./mobile-sidebar";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { InvateModal } from "./invate-modal";
 import { useGetRoom } from "@/features/room/api/use-get-room";
-import { useRoomId } from "@/hooks/use-room-id";
+import { useGetRoomId } from "@/hooks/use-get-room-id";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Toolbar = () => {
-  const roomId = useRoomId();
+  const roomId = useGetRoomId();
   const { data, isLoading } = useGetRoom({
     id: roomId,
   });
   const [open, setopen] = useState(false);
 
-  if(!data){
-    return <></>
+  if (!data) {
+    return <></>;
   }
   return (
     <>

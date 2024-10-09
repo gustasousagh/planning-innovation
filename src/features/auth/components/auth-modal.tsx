@@ -8,29 +8,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useAuthModal } from "../store/use-auth-modal";
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { useAuthModal } from "@/features/auth/store/use-auth-modal";
 
 export const AuthModal = () => {
   const [open, setOpen] = useAuthModal();
   const { signIn } = useAuthActions();
   const [pending, setPending] = useState(false);
 
-  const router = useRouter();
   const handlerClose = () => {
     setOpen(false);
   };
+
   const handlerProvidedAuth = (value: "github" | "google") => {
     setPending(true);
-    signIn(value).finally(() => {
+    signIn(value).finally(async () => {
       setPending(false);
-      router.push("/");
     });
   };
+
   return (
     <Dialog open={open} onOpenChange={handlerClose}>
       <DialogContent className="space-y-3 p-10">

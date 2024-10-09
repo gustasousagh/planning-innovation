@@ -5,8 +5,8 @@ interface Props {
   id: Id<"rooms">;
 }
 
-export const useGetRoom = ({id}: Props) => {
-  const data = useQuery(api.rooms.getById, {id});
+export const useGetRoom = ({ id }: Props) => {
+  const data = useQuery(api.rooms.getById, { id });
   const isLoading = data === undefined;
-  return {data, isLoading};
-} 
+  return { data, isLoading };
+};

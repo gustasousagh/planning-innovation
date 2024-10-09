@@ -3,43 +3,42 @@ import { api } from "../../../../convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type RequestType = { name: string };
-
-type ResponseType = Id<"rooms"> | null;
-
-type Options = {
-  onSuccess?: (data: ResponseType) => void;
+type ResetVisibilityRequest = { roomId: Id<"rooms"> };
+type ResetVisibilityOptions = {
+  onSuccess?: () => void;
   onError?: (error: Error) => void;
   onSettled?: () => void;
-  trowError?: boolean;
+  throwError?: boolean;
 };
-export const useCreateRoom = () => {
-  const [data, setData] = useState<ResponseType>(null);
-  const [error, setError] = useState<Error | null>(null);
+
+export const useResetVisibility = () => {
   const [status, setStatus] = useState<
     "success" | "error" | "settled" | "pending" | null
   >(null);
+  const [error, setError] = useState<Error | null>(null);
 
   const isPending = useMemo(() => status === "pending", [status]);
   const isSuccess = useMemo(() => status === "success", [status]);
   const isError = useMemo(() => status === "error", [status]);
   const isSettled = useMemo(() => status === "settled", [status]);
 
-  const mutation = useMutation(api.rooms.createRoom);
+  const mutation = useMutation(api.rooms.resetVisibility);
 
   const mutate = useCallback(
-    async (values: RequestType, options?: Options) => {
+    async (
+      values: ResetVisibilityRequest,
+      options?: ResetVisibilityOptions
+    ) => {
       try {
-        setData(null);
         setError(null);
         setStatus("pending");
-        const response = await mutation(values);
-        options?.onSuccess?.(response);
-        return response;
+        await mutation(values);
+        setStatus("success");
+        options?.onSuccess?.();
       } catch (error) {
         setStatus("error");
         options?.onError?.(error as Error);
-        if (options?.trowError) {
+        if (options?.throwError) {
           throw error;
         }
       } finally {
@@ -49,13 +48,6 @@ export const useCreateRoom = () => {
     },
     [mutation]
   );
-  return {
-    mutate,
-    data,
-    error,
-    isPending,
-    isSuccess,
-    isSettled,
-    isError,
-  };
+
+  return { mutate, error, isPending, isSuccess, isError, isSettled };
 };

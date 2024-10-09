@@ -1,17 +1,18 @@
 "use client";
 import { useGetOnlinePlayers } from "@/features/players/api/use-get-online-players";
 import { usePlayerHeartbeat } from "@/features/players/api/use-player-heartbeat";
-import { useRoomId } from "@/hooks/use-room-id";
+import { useGetRoomId } from "@/hooks/use-get-room-id";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useSelectNumber } from "@/features/players/api/UseSelectNumberProps";
-import { useRevealNumbers } from "@/features/players/api/useRevealNumbers";
-import { useResetVisibility } from "@/features/room/api/useResetVisibility";
-import { PlayerCard } from "./components/player-card";
+import { useSelectNumber } from "@/features/players/api/Use-select-number-props";
+import { useRevealNumbers } from "@/features/room/api/use-reveal-numbers";
+import { useResetVisibility } from "@/features/room/api/use-reset-visibility";
+import { LoadingScreen } from "@/components/loading";
+import { PlayerCard } from "@/features/players/components/player-card";
 
 const RoomPlayersList = () => {
-  const roomId = useRoomId();
+  const roomId = useGetRoomId();
   const { players, isLoading } = useGetOnlinePlayers({ roomId });
   usePlayerHeartbeat({ roomId });
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
@@ -67,7 +68,7 @@ const RoomPlayersList = () => {
   };
 
   if (isLoading) {
-    return <div>Carregando...</div>;
+    return <LoadingScreen />;
   }
   const numbers = [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 22, 24];
   return (

@@ -31,12 +31,16 @@ export function Features() {
   return (
     <div className="py-24 sm:py-32">
       <div className="max-w-2xl mx-auto lg:text-center">
-        <p className="font-semibold leading-7 text-primary">Marque Pontos Rápido</p>
+        <p className="font-semibold leading-7 text-primary">
+          Marque Pontos Rápido
+        </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
           Faça suas estimativas em minutos
         </h1>
         <p className="mt-6 text-base leading-snug text-muted-foreground">
-          Com nossa ferramenta, você e sua equipe podem fazer estimativas de pontos Scrum de maneira rápida e prática, permitindo que o foco esteja sempre na entrega de valor.
+          Com nossa ferramenta, você e sua equipe podem fazer estimativas de
+          pontos Scrum de maneira rápida e prática, permitindo que o foco esteja
+          sempre na entrega de valor.
         </p>
       </div>
 

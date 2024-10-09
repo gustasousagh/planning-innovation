@@ -1,8 +1,8 @@
 "use client";
-import { Features } from "@/features/home/components/Features";
-import { Hero } from "@/features/home/components/Hero";
-import { PricingTable } from "@/features/home/components/Pricing";
-export default function Home() {
+import { Features } from "@/features/home/components/features";
+import { Hero } from "@/features/home/components/hero";
+import { PricingTable } from "@/features/home/components/pricing";
+const Home = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
       <Hero />
@@ -11,3 +11,4 @@ export default function Home() {
     </div>
   );
 }
+export default Home;

@@ -2,22 +2,16 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useGetRoom } from "@/features/room/api/use-get-room";
-import { useGetRooms } from "@/features/room/api/use-get-rooms";
-import { useCreateRoomModal } from "@/features/room/store/use-create-room-modal";
-
-import { useRoomId } from "@/hooks/use-room-id";
-
+import { useGetRoomId } from "@/hooks/use-get-room-id";
 import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useGetPlayer } from "@/features/players/api/use-get-player";
 import { UserItem } from "./use-item";
 
 export const RoomPlayers = () => {
-  const roomId = useRoomId();
+  const roomId = useGetRoomId();
   const { data: workspace, isLoading: workspaceLoading } = useGetRoom({
     id: roomId,
   });
@@ -28,14 +22,11 @@ export const RoomPlayers = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-         variant="link"
-         size="lg"
-         className="w-full">
+        <Button variant="link" size="lg" className="w-full">
           {workspaceLoading ? (
             <Loader className="size-5 animate-spin shrink-0" />
           ) : (
-              workspace?.name
+            workspace?.name
           )}
         </Button>
       </DropdownMenuTrigger>
