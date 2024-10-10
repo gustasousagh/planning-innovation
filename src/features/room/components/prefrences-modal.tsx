@@ -38,7 +38,7 @@ export const PreferenceModel = ({ open, setOpen, initialValue }: Props) => {
     }, {
       onSucess: () => {
         setEditOpen(false)
-        toast.success("workspace Atualizado")
+        toast.success(" Atualizado")
       },
       onError: () => {
         toast.error("failed")
@@ -52,7 +52,7 @@ export const PreferenceModel = ({ open, setOpen, initialValue }: Props) => {
     }, {
       onSuccess: () => {
         router.replace("/")
-        toast.success("workspace Remove")
+        toast.success(" Remove")
       },
       onError: () => {
         toast.error("failed")
@@ -91,7 +91,7 @@ export const PreferenceModel = ({ open, setOpen, initialValue }: Props) => {
                 autoFocus
                 minLength={3}
                 maxLength={80}
-                placeholder="WorkSpace name"
+                placeholder=" name"
                 />
                 <DialogFooter>
                   <DialogClose asChild>

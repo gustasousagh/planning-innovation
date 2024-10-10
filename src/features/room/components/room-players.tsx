@@ -33,7 +33,7 @@ export const RoomPlayers = () => {
     return (
       <div className="flex flex-col gap-y-2 bg-[#5E2C5F] h-full items-center justify-center">
         <AlertTriangle className=" size-5 text-white" />
-        <p className="text-white text-sm">Workspace not found</p>
+        <p className="text-white text-sm"> not found</p>
       </div>
     );
   }
