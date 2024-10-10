@@ -11,91 +11,104 @@ import { useGetRoom } from "@/features/room/api/use-get-room";
 import { useGetOnlinePlayers } from "@/features/players/api/use-get-online-players";
 import { usePlayerHeartbeat } from "@/features/players/api/use-player-heartbeat";
 import { Check, Ellipsis } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";const mockPlayers = [
+  { _id: "player_1", user: { name: "Player 1" } },
+  { _id: "player_2", user: { name: "Player 2" } },
+  { _id: "player_3", user: { name: "Player 3" } },
+  { _id: "player_4", user: { name: "Player 4" } },
+  { _id: "player_5", user: { name: "Player 5" } },
+  { _id: "player_6", user: { name: "Player 6" } },
+  { _id: "player_7", user: { name: "Player 7" } },
+  { _id: "player_8", user: { name: "Player 8" } },
+  { _id: "player_9", user: { name: "Player 9" } },
+  { _id: "player_10", user: { name: "Player 10" } },
+  { _id: "player_11", user: { name: "Player 11" } },
+  { _id: "player_12", user: { name: "Player 12" } },
+];
 
 const positions = [
   //1
   {
     top: "top-0",
-    left: "left-8",
-    transform: "translateY(-150%)",
+    left: "left-0",
+    transform: "translateY(-120%)",
     color: "bg-red-500",
   },
   //2
   {
     right: "right-0",
-    top: "top-[-10px]",
+    top: "top-[-60px]",
     transform: "translateX(150%)",
     color: "bg-green-700",
   },
   // 3
   {
     bottom: "bottom-0",
-    left: "left-8",
-    transform: "translateY(150%)",
+    left: "left-0",
+    transform: "translateY(120%)",
     color: "bg-pink-500",
   },
   // 4
   {
     left: "left-0",
-    top: "top-[-10px]",
+    top: "top-[-60px]",
     transform: "translateX(-150%)",
     color: "bg-gray-500",
   },
   // 5
   {
     top: "top-0",
-    left: "left-24",
-    transform: "translateY(-150%)",
+    left: "left-20",
+    transform: "translateY(-120%)",
     color: "bg-green-500",
   },
   // 6
   {
     right: "right-0",
-    bottom: "bottom-[-5px]",
+    bottom: "bottom-[-60px]",
     transform: "translateX(150%)",
     color: "bg-red-700",
   },
   // 7
   {
     bottom: "bottom-0",
-    left: "left-24",
-    transform: "translateY(150%)",
+    left: "left-20",
+    transform: "translateY(120%)",
     color: "bg-teal-500",
   },
   // 8
   {
     left: "left-0",
-    bottom: "bottom-[-5px]",
+    bottom: "bottom-[-60px]",
     transform: "translateX(-150%)",
     color: "bg-blue-700",
   },
   //9
   {
     top: "top-0",
-    right: "right-24",
-    transform: "translateY(-150%)",
+    right: "right-20",
+    transform: "translateY(-120%)",
     color: "bg-yellow-500",
   },
   // 10
   {
     bottom: "bottom-0",
-    right: "right-24",
-    transform: "translateY(150%)",
+    right: "right-20",
+    transform: "translateY(120%)",
     color: "bg-orange-500",
   },
 
   {
     top: "top-0",
-    right: "right-8",
-    transform: "translateY(-150%)",
+    right: "right-0",
+    transform: "translateY(-120%)",
     color: "bg-purple-500",
   },
 
   {
     bottom: "bottom-0",
-    right: "right-8",
-    transform: "translateY(150%)",
+    right: "right-0",
+    transform: "translateY(120%)",
     color: "bg-indigo-500",
   },
 ];
@@ -103,6 +116,7 @@ const positions = [
 const RoomPlayersList = () => {
   const roomId = useGetRoomId();
   const { players, isLoading } = useGetOnlinePlayers({ roomId });
+
   usePlayerHeartbeat({ roomId });
   const [blockRevealButton, setBlockRevealButton] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
@@ -166,7 +180,7 @@ const RoomPlayersList = () => {
 
   return (
     <div className="flex flex-col h-full justify-center items-center mt-20">
-      <div className="relative w-80 h-44 rounded-md bg-blue-500/85 my-28 flex justify-center items-center">
+      <div className="relative w-72 h-32 rounded-md bg-blue-500/85 my-28 flex justify-center items-center">
         {players.map((player, index) => {
           const position = positions[index];
           return (
