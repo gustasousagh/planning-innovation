@@ -71,7 +71,7 @@ export const PreferenceModel = ({ open, setOpen, initialValue }: Props) => {
     <DialogTrigger asChild>
       <div className="px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-50">
             <div className="flex items-center justify-between">
-              <p className="text-s font-semibold">Workspace</p>
+              <p className="text-s font-semibold">Sala</p>
               <p className="text-sm text-[#1264a3] hover:underline font-semibold">Edit</p>
             </div>
             <p className="text-sm">{value}</p>
