@@ -38,7 +38,7 @@ const positions = [
   {
     right: "right-0",
     top: "top-[-60px]",
-    transform: "translateX(150%)",
+    transform: "translateX(120%)",
     color: "bg-green-700",
   },
   // 3
@@ -52,13 +52,13 @@ const positions = [
   {
     left: "left-0",
     top: "top-[-60px]",
-    transform: "translateX(-150%)",
+    transform: "translateX(-120%)",
     color: "bg-gray-500",
   },
   // 5
   {
     top: "top-0",
-    left: "left-20",
+    left: "left-16",
     transform: "translateY(-120%)",
     color: "bg-green-500",
   },
@@ -66,13 +66,13 @@ const positions = [
   {
     right: "right-0",
     bottom: "bottom-[-60px]",
-    transform: "translateX(150%)",
+    transform: "translateX(120%)",
     color: "bg-red-700",
   },
   // 7
   {
     bottom: "bottom-0",
-    left: "left-20",
+    left: "left-16",
     transform: "translateY(120%)",
     color: "bg-teal-500",
   },
@@ -80,20 +80,20 @@ const positions = [
   {
     left: "left-0",
     bottom: "bottom-[-60px]",
-    transform: "translateX(-150%)",
+    transform: "translateX(-120%)",
     color: "bg-blue-700",
   },
   //9
   {
     top: "top-0",
-    right: "right-20",
+    right: "right-16",
     transform: "translateY(-120%)",
     color: "bg-yellow-500",
   },
   // 10
   {
     bottom: "bottom-0",
-    right: "right-20",
+    right: "right-16",
     transform: "translateY(120%)",
     color: "bg-orange-500",
   },
@@ -116,7 +116,7 @@ const positions = [
 const RoomPlayersList = () => {
   const roomId = useGetRoomId();
   const { players, isLoading } = useGetOnlinePlayers({ roomId });
-
+// const players = mockPlayers;
   usePlayerHeartbeat({ roomId });
   const [blockRevealButton, setBlockRevealButton] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
@@ -179,8 +179,8 @@ const RoomPlayersList = () => {
   const numbers = [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 22, 24];
 
   return (
-    <div className="flex flex-col h-full justify-center items-center mt-20">
-      <div className="relative w-72 h-32 rounded-md bg-blue-500/85 my-28 flex justify-center items-center">
+    <div className="flex flex-col h-full justify-center items-center mt-16">
+      <div className="relative w-64 h-32 rounded-xl bg-blue-500/85 my-28 flex justify-center items-center">
         {players.map((player, index) => {
           const position = positions[index];
           return (
@@ -212,7 +212,7 @@ const RoomPlayersList = () => {
           );
         })}
       </div>
-      <div className="overflow-x-auto whitespace-nowrap p-4 max-w-full flex justify-center">
+      <div className="overflow-x-auto mt-10 whitespace-nowrap p-4 max-w-full flex justify-center">
         <div className="flex gap-2">
           {numbers.map((number) => (
             <Button
