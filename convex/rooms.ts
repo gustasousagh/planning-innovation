@@ -160,13 +160,9 @@ export const resetVisibility = mutation({
     if (!room || room.userId !== userId) {
       throw new Error("Only the room admin can reset visibility");
     }
-
-    // Reset `numbersRevealed` to false
     await ctx.db.patch(roomId, {
       numbersRevealed: false,
     });
-
-    // Clear `selectedNumber` for all players in the room
     const playersInRoom = await ctx.db
       .query("playes")
       .withIndex("by_room_id", (q) => q.eq("roomId", roomId))
@@ -179,6 +175,58 @@ export const resetVisibility = mutation({
     }
   },
 });
+export const remove = mutation({
+  args: {
+    id: v.id("rooms"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if(!userId){
+      throw new Error("unauthorized")
+    }
+    const player = await ctx.db.query("playes")
+    .withIndex("by_room_id_user_id", (q) =>
+    q.eq("roomId", args.id).eq("userId", userId))
+    .unique();
+    if(!player || player.role !== "admin"){
+      throw new Error("Unauthorized");
+    }
+    const [players] = await Promise.all([
+      ctx.db
+      .query("playes")
+      .withIndex("by_room_id", (q) => q.eq("roomId", args.id))
+      .collect()
+    ]);
+    for(const player of players){
+      await ctx.db.delete(player._id)
+    }
+    await ctx.db.delete(args.id)
+    return args.id;
+  }
+})
+export const update = mutation({
+  args: {
+    id: v.id("rooms"),
+    name: v.string()
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if(!userId){
+      throw new Error("unauthorized")
+    }
+    const player = await ctx.db.query("playes")
+    .withIndex("by_room_id_user_id", (q) =>
+    q.eq("roomId", args.id).eq("userId", userId))
+    .unique();
+    if(!player || player.role !== "admin"){
+      throw new Error("Unauthorized");
+    }
+    await ctx.db.patch(args.id, {
+      name: args.name
+    })
+    return args.id;
+  }
+})
 const generateCode = () => {
   const code = Array.from(
     { length: 6 },
