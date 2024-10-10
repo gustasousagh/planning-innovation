@@ -9,6 +9,8 @@ const schema = defineSchema({
     userId: v.id("users"),
     joinCode: v.string(),
     numbersRevealed: v.boolean(),
+    choices: v.optional(v.array(v.number())), // Valores padrão
+
   }),
   playes: defineTable({
     userId: v.id("users"),

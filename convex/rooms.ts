@@ -12,12 +12,14 @@ export const createRoom = mutation({
       throw new Error("Unauthorized");
     }
     const joinCode = generateCode();
+    const defaultNumbers = [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55];
 
     const roomId = await ctx.db.insert("rooms", {
       name: args.name,
       userId,
       joinCode,
-      numbersRevealed: false
+      numbersRevealed: false,
+      choices: defaultNumbers,
     });
     await ctx.db.insert("playes", {
       userId,
@@ -92,6 +94,56 @@ export const getInfoById = query({
     }
   }
 })
+export const addOption = mutation({
+  args: {
+    roomId: v.id("rooms"),
+    newChoices: v.array(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Unauthorized");
+    }
+
+    // Verifica se o jogador é o administrador
+    const player = await ctx.db
+      .query("playes")
+      .withIndex("by_room_id_user_id", (q) =>
+        q.eq("roomId", args.roomId).eq("userId", userId)
+      )
+      .unique();
+
+    if (!player || player.role !== "admin") {
+      throw new Error("Unauthorized");
+    }
+
+    // Obtém a sala atual
+    const room = await ctx.db.get(args.roomId);
+    if (!room) {
+      throw new Error("Room not found");
+    }
+
+    // Filtra novos números para ignorar duplicados e números negativos
+    const filteredChoices = args.newChoices.filter(choice => {
+      if (choice < 0) {
+        throw new Error("Negative numbers are not allowed");
+      }
+      return !room.choices?.includes(choice);
+    });
+
+    // Adiciona apenas os números que passaram na verificação
+    const updatedChoices = [...room.choices as number[], ...filteredChoices];
+
+    await ctx.db.patch(args.roomId, {
+      choices: updatedChoices,
+    });
+
+    return args.roomId;
+  },
+});
+
+
+
 export const join = mutation({
   args: {
     joinCode: v.string(),
@@ -175,6 +227,43 @@ export const resetVisibility = mutation({
     }
   },
 });
+export const deleteOption = mutation({
+  args: {
+    roomId: v.id("rooms"),
+    choicesToRemove: v.array(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("unauthorized");
+    }
+
+    const player = await ctx.db
+      .query("playes")
+      .withIndex("by_room_id_user_id", (q) => q.eq("roomId", args.roomId).eq("userId", userId))
+      .unique();
+
+    if (!player || player.role !== "admin") {
+      throw new Error("Unauthorized");
+    }
+
+    const room = await ctx.db.get(args.roomId);
+    if (!room) {
+      throw new Error("Room not found");
+    }
+
+    const updatedChoices = room.choices?.filter(
+      (choice: number) => !args.choicesToRemove.includes(choice)
+    );
+
+    await ctx.db.patch(args.roomId, {
+      choices: updatedChoices,
+    });
+
+    return args.roomId;
+  },
+});
+
 export const remove = mutation({
   args: {
     id: v.id("rooms"),

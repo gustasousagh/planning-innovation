@@ -42,7 +42,6 @@ export const RoomPlayers = () => {
     <PreferenceModel
         open={open}
         setOpen={setOpen}
-        initialValue={room?.name}
       />
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

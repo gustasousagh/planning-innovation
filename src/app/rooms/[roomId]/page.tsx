@@ -152,7 +152,7 @@ const RoomPlayersList = () => {
 
       <div className="flex w-full items-center justify-center overflow-x-scroll p-4">
         <div className="inline-flex gap-2 w-max mx-5">
-          {numbers.map((number) => (
+          {room.choices?.map((number) => (
             <Button
               key={number}
               onClick={() => handleNumberClick(number)}
