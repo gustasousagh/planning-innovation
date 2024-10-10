@@ -11,7 +11,8 @@ import { useGetRoom } from "@/features/room/api/use-get-room";
 import { useGetOnlinePlayers } from "@/features/players/api/use-get-online-players";
 import { usePlayerHeartbeat } from "@/features/players/api/use-player-heartbeat";
 import { Check, Ellipsis } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";const mockPlayers = [
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+const mockPlayers = [
   { _id: "player_1", user: { name: "Player 1" } },
   { _id: "player_2", user: { name: "Player 2" } },
   { _id: "player_3", user: { name: "Player 3" } },
@@ -58,7 +59,7 @@ const positions = [
   // 5
   {
     top: "top-0",
-    left: "left-16",
+    left: "left-16 lg:left-20",
     transform: "translateY(-120%)",
     color: "bg-green-500",
   },
@@ -72,7 +73,7 @@ const positions = [
   // 7
   {
     bottom: "bottom-0",
-    left: "left-16",
+    left: "left-16 lg:left-20",
     transform: "translateY(120%)",
     color: "bg-teal-500",
   },
@@ -86,14 +87,14 @@ const positions = [
   //9
   {
     top: "top-0",
-    right: "right-16",
+    right: "right-16 lg:right-20",
     transform: "translateY(-120%)",
     color: "bg-yellow-500",
   },
   // 10
   {
     bottom: "bottom-0",
-    right: "right-16",
+    right: "right-16 lg:right-20",
     transform: "translateY(120%)",
     color: "bg-orange-500",
   },
@@ -116,7 +117,7 @@ const positions = [
 const RoomPlayersList = () => {
   const roomId = useGetRoomId();
   const { players, isLoading } = useGetOnlinePlayers({ roomId });
-// const players = mockPlayers;
+  // const players = mockPlayers;
   usePlayerHeartbeat({ roomId });
   const [blockRevealButton, setBlockRevealButton] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
@@ -137,9 +138,6 @@ const RoomPlayersList = () => {
     selectNumber(
       { roomId, number },
       {
-        onSuccess: () => {
-          toast.success(`Número ${number} selecionado com sucesso!`);
-        },
         onError: () => {
           toast.error("Erro ao selecionar número. Tente novamente.");
         },
@@ -179,8 +177,25 @@ const RoomPlayersList = () => {
   const numbers = [0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 22, 24];
 
   return (
-    <div className="flex flex-col h-full justify-center items-center mt-16">
-      <div className="relative w-64 h-32 rounded-xl bg-blue-500/85 my-28 flex justify-center items-center">
+    <div className="flex flex-col h-full justify-between items-center">
+      <div className="" />
+      <div className="relative w-64 h-32 lg:w-80 lg:h-44 rounded-xl bg-blue-500/85 my-28 flex justify-center items-center ">
+        <div className="flex gap-4 mb-4 justify-center">
+          <Button
+            onClick={handleRevealClick}
+            disabled={isSuccess || data?.numbersRevealed}
+            className="bg-green-500 text-white rounded"
+          >
+            Revelar
+          </Button>
+          <Button
+            onClick={handleResetClick}
+            disabled={isResetting}
+            className="bg-red-500 text-white rounded"
+          >
+            Resetar
+          </Button>
+        </div>
         {players.map((player, index) => {
           const position = positions[index];
           return (
@@ -192,7 +207,7 @@ const RoomPlayersList = () => {
               }}
             >
               <div
-                className={`w-12 h-16 rounded-md ${position.color} flex items-center justify-center text-white`}
+                className={`w-12 lg:w-16 lg:h-20 h-16 rounded-md ${position.color} flex items-center justify-center text-white`}
               >
                 {!player.hasChosenNumber ? (
                   <Ellipsis />
@@ -203,24 +218,25 @@ const RoomPlayersList = () => {
                 )}
               </div>
               <Avatar className="mr-1">
-        <AvatarImage className="rounded-md" src={player.user.image} />
-        <AvatarFallback className="rounded-md bg-sky-500 text-white">
-          A
-        </AvatarFallback>
-      </Avatar>
+                <AvatarImage className="rounded-md " src={player.user.image} />
+                <AvatarFallback className="rounded-md bg-sky-500 text-white">
+                  {player.user.name?.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
             </div>
           );
         })}
       </div>
-      <div className="overflow-x-auto mt-10 whitespace-nowrap p-4 max-w-full flex justify-center">
-        <div className="flex gap-2">
+
+      <div className="flex w-full items-center justify-center overflow-x-scroll p-4">
+        <div className="inline-flex gap-2 w-max mx-5">
           {numbers.map((number) => (
             <Button
               key={number}
               onClick={() => handleNumberClick(number)}
-              className={`p-2 w-12 h-12 border border-gray-300 rounded ${
+              className={`p-2 w-20 h-32 border border-gray-300 rounded transform ${
                 selectedNumber === number
-                  ? "bg-blue-500 text-white"
+                  ? "bg-blue-500 text-white scale-110"
                   : "bg-white text-gray-800"
               }`}
               disabled={isSelectingNumber || data?.numbersRevealed}
@@ -229,22 +245,6 @@ const RoomPlayersList = () => {
             </Button>
           ))}
         </div>
-      </div>
-      <div className="flex gap-4 mt-4 justify-center">
-        <Button
-          onClick={handleRevealClick}
-          disabled={isSuccess || data?.numbersRevealed}
-          className="bg-green-500 text-white rounded"
-        >
-          Revelar Números
-        </Button>
-        <Button
-          onClick={handleResetClick}
-          disabled={isResetting}
-          className="bg-red-500 text-white rounded"
-        >
-          Resetar Visibilidade
-        </Button>
       </div>
     </div>
   );
