@@ -10,5 +10,5 @@ export const useGetOnlinePlayers = ({ roomId }: Props) => {
   const data = useQuery(api.players.getOnlinePlayers, { roomId });
   const isLoading = data === undefined;
 
-  return { players: data ?? [], isLoading };
+  return { data: data ?? [], isLoading };
 };

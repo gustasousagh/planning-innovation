@@ -10,12 +10,12 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Toolbar = () => {
   const roomId = useGetRoomId();
-  const { data, isLoading } = useGetRoom({
+  const { data: room } = useGetRoom({
     id: roomId,
   });
   const [open, setopen] = useState(false);
 
-  if (!data) {
+  if (!room) {
     return <></>;
   }
   return (
@@ -23,8 +23,8 @@ export const Toolbar = () => {
       <InvateModal
         opem={open}
         setopen={setopen}
-        joinCode={data?.joinCode}
-        name={data?.name}
+        joinCode={room?.joinCode}
+        name={room?.name}
       />
       <nav className="flex items-center h-16 px-1.5">
         <MobileSidebar />

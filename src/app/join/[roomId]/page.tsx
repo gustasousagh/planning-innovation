@@ -13,6 +13,7 @@ import { Unauthenticated } from "convex/react";
 import { useGetRoomId } from "@/hooks/use-get-room-id";
 import { useGetRoomInfo } from "@/features/join/api/use-get-room-info";
 import { useJoin } from "@/features/join/api/use-join";
+import { LoadingScreen } from "@/components/loading";
 
 const JoinPage = () => {
   const roomId = useGetRoomId();
@@ -41,9 +42,7 @@ const JoinPage = () => {
 
   if (isLoading) {
     return (
-      <div className="h-full items-center justify-center">
-        <Loader className="size-6 animate-spin text-muted-foreground" />
-      </div>
+      <LoadingScreen/>
     );
   }
 

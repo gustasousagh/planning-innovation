@@ -27,10 +27,6 @@ export const PreferenceModel = ({ open, setOpen, initialValue }: Props) => {
   const roomId = useGetRoomId()
   const [value, setValue] = useState(initialValue);
   const router = useRouter();
-  // const [ConfirmDialog, confirm] = useConfirm(
-  //   "tem certeza",
-  //   "tgygygygygygygy"
-  // );
   const [editOpen, setEditOpen] = useState(false)
   const {mutate: updateWorkspace, isPending: PedingUpdate} = useUpdateRoom();
   const {mutate: removeWorkspace, isPending: PedingRemove} = useRemoveRoom();

@@ -8,14 +8,14 @@ const schema = defineSchema({
     name: v.string(),
     userId: v.id("users"),
     joinCode: v.string(),
-    numbersRevealed: v.boolean(),  // Novo campo para controle de revelação
+    numbersRevealed: v.boolean(),
   }),
   playes: defineTable({
     userId: v.id("users"),
     roomId: v.id("rooms"),
     role: v.union(v.literal("admin"), v.literal("player")),
     lastSeen: v.number(),
-    selectedNumber: v.optional(v.number()),  // Novo campo para armazenar o número escolhido
+    selectedNumber: v.optional(v.number()),
   })
   .index("by_user_id", ["userId"])
   .index("by_room_id", ["roomId"])
