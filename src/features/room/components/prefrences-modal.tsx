@@ -138,7 +138,7 @@ export const PreferenceModel = ({ open, setOpen }: Props) => {
 
   {/* Container das opções */}
   <div className="flex flex-wrap gap-2 mt-4">
-    {room?.choices?.map((value, index) => (
+    {room?.choices?.sort((a, b) => a - b).map((value, index) => (
       <div key={index} className="relative">
         {/* Cada opção */}
         <div className="h-10 w-10 bg-secondary rounded-md flex items-center justify-center">

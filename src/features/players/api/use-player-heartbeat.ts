@@ -14,7 +14,7 @@ export const usePlayerHeartbeat = ({ roomId }: Props) => {
     updatePresence({ roomId });
     const intervalId = setInterval(() => {
       updatePresence({ roomId });
-    }, 30000);
+    }, 70000);
     return () => clearInterval(intervalId);
   }, [updatePresence, roomId]);
 };

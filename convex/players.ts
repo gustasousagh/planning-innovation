@@ -96,7 +96,7 @@ export const getOnlinePlayers = query({
     const numbersRevealed = room ? room.numbersRevealed : false;
 
     const now = Date.now();
-    const onlineThreshold = 40000;
+    const onlineThreshold = 150000;
 
     const players = await ctx.db
       .query("playes")
